@@ -1,4 +1,3 @@
-
 # coding: utf-8
 
 # param x is numeric vector or matrix. Data from a numerator distribution p(x).   
@@ -125,7 +124,7 @@ class Density_ratio_estimation:
         x_num_row = x.shape[0]
         y_num_row = y.shape[0]
         kernel_num = np.min([kernel_num,x_num_row]) #kernel number is the minimum number of x's lines and the number of kernel.
-        centers = x[rand.sample(xrange(x_num_row),kernel_num)] #randomly choose candidates of rbf kernel centroid.
+        centers = x[rand.sample(range(x_num_row),kernel_num)] #randomly choose candidates of rbf kernel centroid.
         
         if(len(sigma) != 1 or len(lamb) != 1):
             print(u'search sigma and lambda')
