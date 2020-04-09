@@ -5,7 +5,9 @@
 # param kernel_num is positive integer. Number of kernels.
 # 
 
-import numpy as np
+from jax.config import config; config.update("jax_enable_x64", True)
+import jax.numpy as np
+from jax import jit, vmap
 import random as rand
 from functools import partial
 from .progressbar import progbar
@@ -93,8 +95,8 @@ class densratio:
         H = (1.-alpha)*(np.dot(phi_y.T, phi_y) / y_num_row) + alpha*(np.dot(phi_x.T, phi_x)/x_num_row) #Phi* Phi
         h = np.average(phi_x,axis=0).T
         weights = np.linalg.solve(H + lambda_*np.identity(kernel_num), h).ravel()
-        weights[weights < 0] = 0.
-        #weights = ops.index_update(weights,weights<0,0) #G2[G2<0]=0
+        #weights[weights < 0] = 0.
+        weights = jax.ops.index_update(weights,weights<0,0) #G2[G2<0]=0
         
         self.__alpha = alpha
         self.__weights = weights
@@ -140,8 +142,8 @@ class densratio:
                 G1 = np.linalg.solve(G, phi_x) + np.dot(GinvX, diag_G1)
             
                 G2 = (y_num_row - 1) * (x_num_row * G0 - G1)/(y_num_row *(x_num_row - 1))
-                G2[G2<0] = 0.
-                #G2 = ops.index_update(G2,G2<0,0) #G2[G2<0]=0
+                #G2[G2<0] = 0.
+                G2 = jax.ops.index_update(G2,G2<0,0) #G2[G2<0]=0
                 
                 r_x = (phi_x * G2).sum(axis=0).T
                 r_y = (phi_y * G2).sum(axis=0).T
@@ -158,8 +160,9 @@ class densratio:
         return {'sigma':sigma_new, 'lambda':lamb_new}
     
 def gauss_kernel(r,centers,sigma):
-    #dists = pairwise_distances(euclid_distance)
-    return np.exp(-0.5*pairwise_euclid_distances(r,centers) / (sigma**2))
+    dists = pairwise_distances(euclid_distance)
+    return np.exp(-0.5*dists(r,centers) / (sigma**2))
+    #return np.exp(-0.5*pairwise_euclid_distances(r,centers) / (sigma**2))
 
 def transform_data(x):
     if isinstance(x,np.ndarray):
@@ -176,9 +179,9 @@ def euclid_distance(x,y, square=True):
     '''
     \sum_m (X_m - Y_m)^2
     '''
-    XX=np.einsum('i,i',x,x)
-    YY=np.einsum('i,i',y,y)
-    XY=np.einsum('i,i',x,y)
+    XX=np.dot(x,x)
+    YY=np.dot(y,y)
+    XY=np.dot(x,y)
     if not square:
         return np.sqrt(XX+YY-2*XY)
     return XX+YY-2*XY
@@ -188,8 +191,7 @@ def pairwise_distances(dist,**arg):
     d_ij = dist(X_i , Y_j)
     "i,j" are assumed to indicate the data index.
     '''
-    dists = jit(vmap(vmap(partial(dist,**arg),in_axes=(None,0)),in_axes=(0,None)))
-    return dists
+    return jit(vmap(vmap(partial(dist,**arg),in_axes=(None,0)),in_axes=(0,None)))
 
 def pairwise_euclid_distances(x,y,square=True):
     XX = np.einsum('ik,ik->i',x,x)
