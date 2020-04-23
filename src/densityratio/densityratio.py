@@ -15,8 +15,8 @@ from .progressbar import progbar
 class densratio: 
     def __init__(self):
         pass 
-    def __init__(self, x, y, alpha=0.,kernel_num=None, vervose=False):
-        self.__clear_disp = not vervose
+    def __init__(self, x, y, alpha=0.,kernel_num=None, verbose=False):
+        self.__clear_disp = not verbose
         self.__x = transform_data(x)
         self.__y = transform_data(y)
 
