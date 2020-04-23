@@ -6,8 +6,10 @@
 # 
 
 from jax.config import config; config.update("jax_enable_x64", True)
+import jax
 import jax.numpy as np
 from jax import jit, vmap
+
 import random as rand
 from functools import partial
 from .progressbar import progbar
