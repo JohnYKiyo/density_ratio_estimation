@@ -17,21 +17,27 @@ from .progressbar import progbar
 class densratio: 
     def __init__(self):
         pass 
-    def __init__(self, x, y, alpha=0.,kernel_num=None, verbose=False):
+    def __init__(self, x, y, alpha=0., sigma=None, lamb=None, kernel_num=None, verbose=False):
         self.__clear_disp = not verbose
         self.__x = transform_data(x)
         self.__y = transform_data(y)
 
         if self.__x.shape[1] != self.__y.shape[1]:
             raise ValueError("x and y must be same dimentions.")
-
-        self.__search_sigma = np.logspace(-4,9,14)
-        self.__search_lambda = np.logspace(-4,9,14)
+        
+        if sigma is None:
+            sigma = np.logspace(-4,9,14)
+        
+        if lamb is None:
+            lamb = np.logspace(-4,9,14)
+        
+        
+        
         self._RuLSIF(x = self.__x,
                      y = self.__y,
                      alpha = alpha,
-                     s_sigma = self.__search_sigma,
-                     s_lambda = self.__search_lambda,
+                     s_sigma = np.atleast_1d(sigma),
+                     s_lambda = np.atleast_1d(lamb),
                      kernel_num = kernel_num)
     
     def __call__(self,val):
@@ -117,10 +123,10 @@ class densratio:
         sigma_new = 0 
         lamb_new = 0
     
-        if s_sigma.size == 1:
-            sigma = [sigma]
-        if s_lambda.size == 1:
-            lamb = [lamb]
+        #if s_sigma.size == 1:
+        #    sigma = np.atleast_1d(sigma)
+        #if s_lambda.size == 1:
+        #    lamb = np.atleast_1d(lamb)
         
         pbar = progbar(len(s_sigma),clear_display=self.__clear_disp)
         for i,sig in enumerate(s_sigma):
