@@ -5,9 +5,6 @@ from os.path import splitext
 from setuptools import setup
 from setuptools import find_packages
 
-
-REQUIRES_PYTHON = '>=3.6.0'
-
 def _requires_from_file(filename):
     return open(filename).read().splitlines()
 
@@ -25,7 +22,7 @@ setup(
     author_email='dummn.marionette.7surspecies@gmail.com',
     url="https://github.com/JohnYKiyo/density_ratio_estimation",
     keywords='density ratio estimation',
-    python_requires>=3.6,
+    python_requires=">=3.6.0",
     packages=find_packages(),
     install_requires=[
         'jax>=0.1.57',
