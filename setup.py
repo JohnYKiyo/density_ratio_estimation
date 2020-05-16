@@ -17,18 +17,19 @@ with open("README.md", "r") as f:
 setup(
     name="densityratio",
     version="0.1.0",
-    license="MIT License",
+    license="MIT License + LICENSE file",
     description="A Python Package for Direct density estimation by unconstrained Least-Squares Importance Fitting (uLSIF).",
     long_description=long_description,
     long_description_content_type='text/markdown',
     author="Yu Kiyokawa",
+    author_email='dummn.marionette.7surspecies@gmail.com',
     url="https://github.com/JohnYKiyo/density_ratio_estimation",
-    python_requires=REQUIRES_PYTHON,
+    keywords='density ratio estimation',
+    python_requires>=3.6,
     packages=find_packages(),
-    py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
-    include_package_data=True,
-    zip_safe=False,
-    install_requires=_requires_from_file('requirements.txt')
-    #setup_requires=["pytest-runner"],
-    #tests_require=["pytest", "pytest-cov"]
+    install_requires=[
+        'jax>=0.1.57',
+        'jaxlib>=0.1.37',
+        'ipython>=7.12.0'
+    ]
 )
