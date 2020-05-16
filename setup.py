@@ -24,6 +24,7 @@ setup(
     keywords='density ratio estimation',
     python_requires=">=3.6.0",
     packages=find_packages(),
+    package_dir = {'densityratio': find_packages()}
     install_requires=[
         'jax>=0.1.57',
         'jaxlib>=0.1.37',
