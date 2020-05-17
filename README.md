@@ -23,7 +23,59 @@ densityratio requires:
 
 ## 3\. Quick start
 
-### 3.1
+### 3.1 simple usage
+Generate two samples that follow the normal distribution of $\mathcal{N(0,1)}$ and $\mathcal{N(1,2)}$, respectively.   
+![](pic/QS1_samples.png)   
+The code below gives the above output:
+
+```sh
+import densityratio
+import numpy as np
+import scipy.stats
+import matplotlib.pyplot as plt
+m = [0.,1]
+s = [1.0,2.0]
+np.random.seed(10)
+x1 = np.random.normal(loc= m[0], scale = s[0], size = 500)
+x2 = np.random.normal(loc= m[1], scale = s[1], size = 500)
+
+fig = plt.figure(figsize=[5,3])
+ax = fig.add_subplot(111)
+ax.set_title('distribution of samples')
+edges = np.arange(-10,10,0.2)
+a = ax.hist(x1, bins = edges, color='b', alpha = 0.5, label='x1')
+b = ax.hist(x2, bins = edges, color='m', alpha = 0.5, label='x2')
+ylim = 1.1*np.max([a[0],b[0]])
+ax.set_ylim(0,ylim)
+ax.legend(fontsize = 10, bbox_to_anchor = (1,1), loc='upper right', borderaxespad = 1)
+plt.tight_layout()
+fig.savefig('pic/QS1_samples.png')
+```
+
+Pass two samples to the densratio and it will be calculated automatically.
+```sh
+dens = densityratio.densratio(x1,x2)
+```
+In this case, the true density ratio $r(x)$ is known, so we can compare $r(x)$ with the estimated density ratio $\hat{r}(x)$.    
+![](pic/QS1_ratio.png)   
+The code below gives the above output:   
+```sh
+x = np.linspace(-10,10,100)
+x1_pdf = lambda x: scipy.stats.norm.pdf(x,loc=m[0],scale=s[0])
+x2_pdf = lambda x: scipy.stats.norm.pdf(x,loc=m[1],scale=s[1])
+r = lambda x: x1_pdf(x)/x2_pdf(x)
+
+plt.figure()
+plt.plot(x,r(x),'r',label='true ratio')
+plt.plot(x,dens(x),'gray',label='estimated ratio')
+plt.xlim(-10,10)
+plt.legend()
+plt.savefig('pic/QS1_ratio.png')
+```
+
+Here is this [notebook](QuickStart1.ipynb)
+
+### 3.2 
 
 ## 4\. References
 
