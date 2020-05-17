@@ -23,8 +23,8 @@ setup(
     url="https://github.com/JohnYKiyo/density_ratio_estimation",
     keywords='density ratio estimation',
     python_requires=">=3.6.0",
-    package_dir = {'densityratio': 'src/*'},
-    packages=['densityratio'],
+    package_dir = {'densityratio': 'src'},
+    packages=['densityratio','densityratio.densityratio'],
     install_requires=[
         'jax>=0.1.57',
         'jaxlib>=0.1.37',
