@@ -88,12 +88,12 @@ Here is this [notebook](QuickStart1.ipynb)
 ## 4. Algorithm of Direct density ratio estimation.
 See [here](Algorithm.pdf)
 
-First, the density ratio `r({\bf x}) = p({\bf x})/q({\bf x})` is defined as the sum of kernel functions as 
-```math
-\begin{eqnarray}
+First, the density ratio `r({\bf x}) = p({\bf x})/q({\bf x})` is defined as the sum of kernel functions as   
+`
+\begin{eqnarray}   
     {\bf \hat{r}}_{\bf w} = {\displaystyle \sum_{i=1}^{N_{kernel}}}{{\rm w}_i\psi_i({\bf x})} = {\bf w}^{tr}{\bf \psi({\bf x})}
-\end{eqnarray} 
-```
+\end{eqnarray}   
+`   
 , where `{\bf \psi({\bf x})}` is non-negative kernel function which is employed gaussian kernel, 
 `p({\bf x})` and `q({\bf x})` are probability density function, x is d-dimensional real number, 
 `{\bf w}` are linear model parameters, `N_{kernel}` is the number of kernels.   
