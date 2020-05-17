@@ -1,6 +1,12 @@
 # A Python Package for Density Ratio Estimation by uLSIF.
 
 ## 1\. Overview
+The densityratio package estimates the density ratio $r(x) = p(x) / q(x)$ from two-samples $x1$ and $x2$ generated from two unknown distributions $p(x), q(x)$, respectively, where $x1$ and $x2$ are d-dimensional real numbers.   
+The densityratio provides a *densratio()* class that returns an object with a function for estimating the density ratio and a method for getting the parameters of the density ratio estimation.   
+See the [quick start](#3.-Quick-start) for detailed usage.
+
+The estimated density ratio function $r(x)$ can be used in many applications such as the covariate shift adaptation, outlier detection, and change point detection. See [related works](#6.-Related-Works).
+
 
 
 ## 2\. Installation
@@ -21,7 +27,7 @@ densityratio requires:
 - Ipython (>=7.12.0)
 
 
-## 3\. Quick start
+## 3. Quick start 
 
 ### 3.1 simple usage
 Generate two samples that follow the normal distribution of $\mathcal{N(0,1)}$ and $\mathcal{N(1,2)}$, respectively.   
@@ -77,7 +83,24 @@ Here is this [notebook](QuickStart1.ipynb)
 
 ### 3.2 
 
-## 4\. References
+
+
+## 4. Algorithm of Direct density ratio estimation.
+The advantage of directly estimating the ratio of the probability density functions from the two samples is that the estimation error can be reduced by calculating the ratio of the probability density functions of the distributions to be compared and taking the ratio.   
+Direct estimation of the density ratio uses the unconstrained least squares importance fitting algorithm (uLSIF).
+
+First, the density ratio $r({\bf x}) = p({\bf x})/q({\bf x})$ is defined as the sum of kernel functions as   
+```math
+\begin{eqnarray}   
+    {\bf \hat{r}}_{\bf w} = {\displaystyle \sum_{i=1}^{N_{kernel}}}{{\rm w}_i\psi_i({\bf x})} = {\bf w}^{tr}{\bf \psi({\bf x})}
+\end{eqnarray}    
+```
+, where ${\bf \psi({\bf x})}$ is non-negative kernel function which is employed gaussian kernel, 
+$p({\bf x})$ and $q({\bf x})$ are probability density function, x is d-dimensional real number, 
+${\bf w}$ are linear model parameters, $N_{kernel}$ is the number of kernels.   
+
+
+## 5. References
 
 \[1\] M. Suigyama et al., **Direct Importance Estimation with Model Selection and Its Application to Covariate Shift Adaptation,** Proc. 20th Int. Conf. Neural Inf. Process. Syst., 2007.
 
@@ -94,7 +117,7 @@ Here is this [notebook](QuickStart1.ipynb)
 \[7\] M. Yamada, T. Suzuki, T. Kanamori, H. Hachiya, and M. Sugiyama, **Relative density-ratio estimation for robust distribution comparison,** Neural Computation. 2013.
 
 
-## 6\. Related Work
+## 6. Related Works
 - uLSIF for MATLAB R C++ <http://www.ms.k.u-tokyo.ac.jp/software.html>
 - RuLSIF for MATLAB <https://riken-yamada.github.io/RuLSIF.html>
 
