@@ -45,7 +45,7 @@ class densratio:
     
     def calculate_density_ratio(self, val):
         val = transform_data(val)
-        phi_x = gauss_kernel(val, self.__centers, self.__sigma)
+        phi_x = gauss_kernel(val, self.__kernel_centers, self.__sigma)
         density_ratio = np.dot(phi_x, self.__weights)
         return density_ratio
         
