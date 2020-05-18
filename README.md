@@ -31,7 +31,7 @@ densityratio requires:
 
 ### 3.1 simple usage
 #### Generate data
-Generate two samples that follow the normal distribution of $\mathcal{N(0,1)}$ and $\mathcal{N(1,2)}$, respectively.   
+Generate two samples that follow the normal distribution of `\mathcal{N(0,1)}` and `\mathcal{N(1,2)}`, respectively.   
 ![](pic/QS1_samples.png)   
 The code below gives the above output:
 
@@ -64,7 +64,7 @@ Pass two samples to the densratio and it will be calculated automatically.
 ```sh
 dens = densityratio.densratio(x1,x2)
 ```
-In this case, the true density ratio $r(x)$ is known, so we can compare $r(x)$ with the estimated density ratio $\hat{r}(x)$.    
+In this case, the true density ratio `r(x)` is known, so we can compare `r(x)` with the estimated density ratio `\hat{r}(x)`.    
 ![](pic/QS1_ratio.png)   
 The code below gives the above output:   
 ```sh
@@ -85,8 +85,8 @@ Here is this [notebook](QuickStart1.ipynb)
 
 ### 3.2 Relative-densityratio with multi dimensional samples and optional parameter setting.
 #### Generate data
-For example, Generate two samples that follow the 2-dimentional normal distribution of $\mathcal{N(\mu_1,\Sigma_1)}$ and $\mathcal{N(\mu_2,\Sigma_2)}$, respectively, and estimate the relative-densityratio \[7\]   
-$r_\alpha (x) = p(x)/(\alpha p(x)+(1-\alpha)q(x)).$
+For example, Generate two samples that follow the 2-dimentional normal distribution of `\mathcal{N(\mu_1,\Sigma_1)}` and `\mathcal{N(\mu_2,\Sigma_2)}`, respectively, and estimate the relative-densityratio \[7\]   
+`r_\alpha (x) = p(x)/(\alpha p(x)+(1-\alpha)q(x)).`
 ![](pic/QS2_samples.png)   
 The code below gives the above output:   
 ```sh
