@@ -31,7 +31,7 @@ densityratio requires:
 
 ### 3.1 simple usage
 #### Generate data
-Generate two samples that follow the normal distribution of `\mathcal{N(0,1)}` and `\mathcal{N(1,2)}`, respectively.   
+Generate two samples that follow the normal distribution of `N(0,1)` and `N(1,2)`, respectively.   
 ![](pic/QS1_samples.png)   
 The code below gives the above output:
 
@@ -85,7 +85,7 @@ Here is this [notebook](QuickStart1.ipynb)
 
 ### 3.2 Relative-densityratio with multi dimensional samples and optional parameter setting.
 #### Generate data
-For example, Generate two samples that follow the 2-dimentional normal distribution of `\mathcal{N(\mu_1,\Sigma_1)}` and `\mathcal{N(\mu_2,\Sigma_2)}`, respectively, and estimate the relative-densityratio \[7\]   
+For example, Generate two samples that follow the 2-dimentional normal distribution of `N(\mu_1,\Sigma_1)` and `N(\mu_2,\Sigma_2)`, respectively, and estimate the relative-densityratio \[7\]   
 `r_\alpha (x) = p(x)/(\alpha p(x)+(1-\alpha)q(x)).`
 ![](pic/QS2_samples.png)   
 The code below gives the above output:   
@@ -121,7 +121,7 @@ The *kernel_number* is the number of kernels in the linear model.
 dens = densityratio.densratio(x1,x2,sigma=[0.1, 0.3, 0.5, 0.7, 1., 2., 5.], lamb=[0.01, 0.02, 0.03, 0.04, 0.05],kernel_num=200,alpha=0.2)
 ```
 
-In this case, the true density ratio $r(x)$ is known, so we can compare $r(x)$ with the estimated density ratio $\hat{r}(x)$.    
+In this case, the true density ratio $r(x)$ is known, so we can compare `r(x)` with the estimated density ratio `\hat{r}(x)`.    
 ![](pic/QS2_ratio.png)   
 The code below gives the above output:   
 
@@ -144,6 +144,7 @@ fig.colorbar(a, ax=ax1)
 fig.colorbar(b, ax=ax2)
 fig.savefig('pic/QS2_ratio.png')
 ```
+Here is this [notebook](QuickStart2.ipynb)
 
 ## 4. Algorithm of Direct density ratio estimation.
 See [here](Algorithm.pdf) 
