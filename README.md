@@ -30,6 +30,7 @@ densityratio requires:
 ## 3. Quick start 
 
 ### 3.1 simple usage
+#### Generate data
 Generate two samples that follow the normal distribution of $\mathcal{N(0,1)}$ and $\mathcal{N(1,2)}$, respectively.   
 ![](pic/QS1_samples.png)   
 The code below gives the above output:
@@ -57,6 +58,7 @@ ax.legend(fontsize = 10, bbox_to_anchor = (1,1), loc='upper right', borderaxespa
 plt.tight_layout()
 fig.savefig('pic/QS1_samples.png')
 ```
+#### Estmate densityratio
 
 Pass two samples to the densratio and it will be calculated automatically.
 ```sh
@@ -81,13 +83,70 @@ plt.savefig('pic/QS1_ratio.png')
 
 Here is this [notebook](QuickStart1.ipynb)
 
-### 3.2 
+### 3.2 Relative-densityratio with multi dimensional samples and optional parameter setting.
+#### Generate data
+For example, Generate two samples that follow the 2-dimentional normal distribution of $\mathcal{N(\mu_1,\Sigma_1)}$ and $\mathcal{N(\mu_2,\Sigma_2)}$, respectively, and estimate the relative-densityratio \[7\]   
+$r_\alpha (x) = p(x)/(\alpha p(x)+(1-\alpha)q(x)).$
+![](pic/QS2_samples.png)   
+The code below gives the above output:   
+```sh
+import densityratio
+import numpy as np
+import pandas as pd
+import scipy.stats
+import matplotlib.pyplot as plt
+import seaborn as sns
 
+m = [[0.,0.],[0,0.5]]
+s = [np.array([[0.5,0],
+                [0,0.5]]),
+      np.array([[2.0,0.5],
+                [0.5,2.0]])]
+np.random.seed(10)
+x1 = np.random.multivariate_normal(m[0], s[0], size = 2000)
+x2 = np.random.multivariate_normal(m[1], s[1], size = 2000)
+df = pd.DataFrame({'x':np.r_[x1[:,0],x2[:,0]],'y':np.r_[x1[:,1],x2[:,1]],'label':['x1']*len(x1)+['x2']*len(x2)})
 
+fig = plt.figure(figsize=(9,4))
+ax = fig.add_subplot(111)
+sns.scatterplot(data=df, x='x', y='y', alpha=0.5,hue='label',ax=ax)
+fig.savefig('pic/QS2_samples.png')
+```
+
+#### Estmate relative-densityratio with optional parameters
+If a value is set for *sigma, lambda*, that value is used, and if a numerical array is set, the *densityratio()* selects the optimum value by CV.   
+The *alpha* is a parameter that can adjust the mixing ratio, and is set in the range of \[0,1.\].   
+The *kernel_number* is the number of kernels in the linear model.
+```sh
+dens = densityratio.densratio(x1,x2,sigma=[0.1, 0.3, 0.5, 0.7, 1., 2., 5.], lamb=[0.01, 0.02, 0.03, 0.04, 0.05],kernel_num=200,alpha=0.2)
+```
+
+In this case, the true density ratio $r(x)$ is known, so we can compare $r(x)$ with the estimated density ratio $\hat{r}(x)$.    
+![](pic/QS2_ratio.png)   
+The code below gives the above output:   
+
+```sh
+X,Y = np.meshgrid(np.linspace(-5,5,100),np.linspace(-5,5,100))
+data = np.c_[X.ravel(),Y.ravel()]
+x1_pdf = lambda x: scipy.stats.multivariate_normal.pdf(x,m[0],s[0])
+x2_pdf = lambda x: scipy.stats.multivariate_normal.pdf(x,m[1],s[1])
+Z_true = x1_pdf(data)/(0.2*x1_pdf(data)+0.8*x2_pdf(data))
+
+fig = plt.figure(figsize=[8,4])
+ax1 = fig.add_subplot(121)
+ax2 = fig.add_subplot(122)
+levels=np.arange(0,4,0.5)
+ax1.set_title(r'true $\alpha$ relative-densityratio: $\alpha=0.2$')
+ax2.set_title(r'estimated $\alpha$ relative-densityratio: $\alpha=0.2$')
+a = ax1.contourf(X,Y,Z_true.reshape(100,100),levels=levels)
+b = ax2.contourf(X,Y,dens(np.c_[X.ravel(),Y.ravel()]).reshape(100,100),levels=levels)
+fig.colorbar(a, ax=ax1)
+fig.colorbar(b, ax=ax2)
+fig.savefig('pic/QS2_ratio.png')
+```
 
 ## 4. Algorithm of Direct density ratio estimation.
-See [here](Algorithm.pdf)
- 
+See [here](Algorithm.pdf) 
 
 ## 5. References
 
