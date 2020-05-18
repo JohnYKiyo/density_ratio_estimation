@@ -79,6 +79,10 @@ class densratio:
     def kernel_centers(self):
         return self.__kernel_centers
 
+    @property
+    def N_kernels(self):
+        return self.__kernel_num
+
     def help(self):
         help_text =     u'Estimate density ratio p(x)/q(y)\n'
         help_text +=    u'param x is from a numerator distribution p(x).\n'  
