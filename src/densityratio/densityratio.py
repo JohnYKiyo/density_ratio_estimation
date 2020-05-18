@@ -74,6 +74,10 @@ class densratio:
     @property
     def lambda_(self):
         return self.__lambda
+    
+    @property
+    def kernel_centers(self):
+        return self.__kernel_centers
 
     def help(self):
         help_text =     u'Estimate density ratio p(x)/q(y)\n'
@@ -110,7 +114,7 @@ class densratio:
         self.__weights = weights
         self.__lambda = lambda_
         self.__sigma = sigma
-        self.__centers = centers
+        self.__kernel_centers = centers
         self.__kernel_num = kernel_num
         
     
