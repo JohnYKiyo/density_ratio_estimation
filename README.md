@@ -2,7 +2,7 @@
 
 ## 1\. Overview
 The densityratio package estimates the density ratio `r(x) = p(x) / q(x)` from two-samples `x1` and `x2` generated from two unknown distributions `p(x), q(x)`, respectively, where `x1` and `x2` are d-dimensional real numbers.   
-The densityratio provides a *densratio()* class that returns an object with a function for estimating the density ratio and a method for getting the parameters of the density ratio estimation.   
+The densityratio provides a *densratio()* class that returns an object with a function for estimating the density ratio and methods for getting the parameters of the density ratio estimation.   
 See the [quick start](#3.-Quick-start) for detailed usage.
 
 The estimated density ratio function `r(x)` can be used in many applications such as the covariate shift adaptation, outlier detection, and change point detection. See [related works](#7.-Related-Works).
