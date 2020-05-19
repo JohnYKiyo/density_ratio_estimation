@@ -13,7 +13,7 @@ with open("README.md", "r") as f:
 
 setup(
     name="densityratio",
-    version="0.1.0",
+    version="1.0.0",
     license="MIT License + LICENSE file",
     description="A Python Package for Direct density estimation by unconstrained Least-Squares Importance Fitting (uLSIF).",
     long_description=long_description,
