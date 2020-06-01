@@ -1,4 +1,4 @@
-# A Python Package for Density Ratio Estimation by uLSIF.
+# A Python Package for Density Ratio Estimation by RuLSIF.
 
 ## 1\. Overview
 The densityratio package estimates the density ratio `r(x) = p(x) / q(x)` from two-samples `x1` and `x2` generated from two unknown distributions `p(x), q(x)`, respectively, where `x1` and `x2` are d-dimensional real numbers.   
