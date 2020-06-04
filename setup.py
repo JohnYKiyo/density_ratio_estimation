@@ -27,7 +27,6 @@ setup(
     package_dir = {'densityratio': 'src'},
     install_requires=[
         'jax>=0.1.57',
-        'jaxlib>=0.1.37',
-        'ipython>=7.12.0'
+        'jaxlib>=0.1.37'
     ]
 )

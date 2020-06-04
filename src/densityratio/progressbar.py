@@ -1,6 +1,4 @@
 import sys, time
-from IPython.display import display
-from IPython.display import clear_output
 class progbar:
     def __init__(self, period=100, bars=32,clear_display=True):
 
@@ -50,17 +48,17 @@ class progbar:
         timeinfo = self.calc_time(predict)
         str += timeinfo
 
-        if in_notebook():
-            if self.clear_disp:
-                clear_output()
-            display("{0} {1}".format(str,info))
-        else:
-            if self.clear_disp and not(self.initial_update):
-                sys.stdout.write("\033[1A\033[2K\033[G")
-            sys.stdout.write("{0} {1}\n".format(str,info))
+        if self.clear_disp:
+            if in_notebook():
+                sys.stdout.write("\r{0} {1}".format(str,info))
+            else:
+                if not(self.initial_update):
+                    self.initial_update = False
+                    sys.stdout.write("\033[1A\033[2K\033[G")
+                sys.stdout.write("\r{0} {1}".format(str,info))
             sys.stdout.flush()
-
-        self.initial_update = False
+        else:
+            sys.stdout.write("{0} {1}\n".format(str,info))
     
     def calc_time(self,t):
         s = int(t)
