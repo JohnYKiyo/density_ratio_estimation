@@ -5,7 +5,7 @@ The densityratio package estimates the density ratio `r(x) = p(x) / q(x)` from t
 The densityratio provides a *densratio()* class that returns an object with a function for estimating the density ratio and methods for getting the parameters of the density ratio estimation.   
 See the [quick start](#3.-Quick-start) for detailed usage.
 
-The estimated density ratio function `r(x)` can be used in many applications such as the covariate shift adaptation, outlier detection, and change point detection. See [related works](#7.-Related-Works).
+The estimated density ratio function `r(x)` can be used in many applications such as the covariate shift adaptation, outlier detection, and change point detection. See [related works](#8.-Related-Works).
 
 
 
@@ -152,7 +152,11 @@ See [here](Algorithm.pdf)
 ## 5. Class documents
 [docs](Documents.md)
 
-## 6. References
+## 6. License
+
+MIT License (see [LICENSE](./LICENSE)).
+
+## 7. References
 
 \[1\] M. Suigyama et al., **Direct Importance Estimation with Model Selection and Its Application to Covariate Shift Adaptation,** Proc. 20th Int. Conf. Neural Inf. Process. Syst., 2007.
 
@@ -169,7 +173,7 @@ See [here](Algorithm.pdf)
 \[7\] M. Yamada, T. Suzuki, T. Kanamori, H. Hachiya, and M. Sugiyama, **Relative density-ratio estimation for robust distribution comparison,** Neural Computation. 2013.
 
 
-## 7. Related Works
+## 8. Related Works
 - uLSIF for MATLAB R C++ <http://www.ms.k.u-tokyo.ac.jp/software.html>
 - RuLSIF for MATLAB <https://riken-yamada.github.io/RuLSIF.html>
 
