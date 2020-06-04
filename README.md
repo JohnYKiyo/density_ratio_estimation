@@ -25,7 +25,7 @@ densityratio requires:
 - Jax (>=0.1.57)   
 - Jaxlib (>=0.1.37)   
 
-This software includes the works (Jax, Jaxlib) that are distributed in the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+The densityratio package includes the works (Jax, Jaxlib) that are distributed in the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
 ## 3. Quick start 
 
