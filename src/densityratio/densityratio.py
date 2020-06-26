@@ -4,8 +4,8 @@ import jax.numpy as np
 from jax import jit, vmap
 
 import random as rand
-from functools import partial
-from .progressbar import progbar
+from functools import artial
+from tqdm import tqdm
 
 class densratio: 
     def __init__(self):
@@ -129,45 +129,48 @@ class densratio:
         #if s_lambda.size == 1:
         #    lamb = np.atleast_1d(lamb)
         
-        pbar = progbar(len(s_sigma),clear_display=self.__clear_disp)
-        for i,sig in enumerate(s_sigma):
-            phi_x = gauss_kernel(x, centers, sig)
-            phi_y = gauss_kernel(y, centers, sig)
-            H = (1.- alpha)*(np.dot(phi_y.T, phi_y) / y_num_row) + alpha*(np.dot(phi_x.T, phi_x) / x_num_row)
-            h = phi_x.mean(axis=0,keepdims=True).T
-            phi_x = phi_x[:n_minimum].T
-            phi_y = phi_y[:n_minimum].T
-        
-            for lam in s_lambda:
-                G = H + np.identity(kernel_num) * (lam*(y_num_row - 1)/ y_num_row)
-                GinvX = np.linalg.solve(G,phi_y)
-                XGinvX = phi_y * GinvX
-            
-                den = np.ones(n_minimum)*y_num_row - np.dot(np.ones(kernel_num),XGinvX)
-                diag_G0 = np.diag((np.dot(h.T,GinvX)/den).ravel())
-                G0 = np.linalg.solve(G, h*np.ones(n_minimum)) + np.dot(GinvX, diag_G0)
-                
-                diag_G1 = np.diag(np.dot(np.ones(kernel_num),phi_x*GinvX).ravel())
-                G1 = np.linalg.solve(G, phi_x) + np.dot(GinvX, diag_G1)
-            
-                G2 = (y_num_row - 1) * (x_num_row * G0 - G1)/(y_num_row *(x_num_row - 1))
-                #G2[G2<0] = 0.
-                G2 = jax.ops.index_update(G2,G2<0,0) #G2[G2<0]=0
-                
-                r_x = (phi_x * G2).sum(axis=0).T
-                r_y = (phi_y * G2).sum(axis=0).T
-            
-                score = ((np.dot(r_y.T,r_y).ravel()/2. - r_x.sum(axis=0))/n_minimum).item()
-            
-                if (score < score_new):
-                    score_new = score
-                    sigma_new = sig
-                    lamb_new = lam
-            pbar.update(i,info='sigma:{0},lambda:{1}, score={2}'.format(sigma_new,lamb_new,score_new))
-        del pbar
-        print('Found optimal sigma = {0}, lambda = {1}, score={2}'.format(sigma_new,lamb_new, score_new))
+        with tqdm(total=len(s_sigma)) as pbar:
+            for i,sig in enumerate(s_sigma):
+                phi_x = gauss_kernel(x, centers, sig)
+                phi_y = gauss_kernel(y, centers, sig)
+                H = (1.- alpha)*(np.dot(phi_y.T, phi_y) / y_num_row) + alpha*(np.dot(phi_x.T, phi_x) / x_num_row)
+                h = phi_x.mean(axis=0,keepdims=True).T
+                phi_x = phi_x[:n_minimum].T
+                phi_y = phi_y[:n_minimum].T
+
+                for lam in s_lambda:
+                    G = H + np.identity(kernel_num) * (lam*(y_num_row - 1)/ y_num_row)
+                    GinvX = np.linalg.solve(G,phi_y)
+                    XGinvX = phi_y * GinvX
+
+                    den = np.ones(n_minimum)*y_num_row - np.dot(np.ones(kernel_num),XGinvX)
+                    diag_G0 = np.diag((np.dot(h.T,GinvX)/den).ravel())
+                    G0 = np.linalg.solve(G, h*np.ones(n_minimum)) + np.dot(GinvX, diag_G0)
+
+                    diag_G1 = np.diag(np.dot(np.ones(kernel_num),phi_x*GinvX).ravel())
+                    G1 = np.linalg.solve(G, phi_x) + np.dot(GinvX, diag_G1)
+
+                    G2 = (y_num_row - 1) * (x_num_row * G0 - G1)/(y_num_row *(x_num_row - 1))
+                    #G2[G2<0] = 0.
+                    G2 = jax.ops.index_update(G2,G2<0,0) #G2[G2<0]=0
+
+                    r_x = (phi_x * G2).sum(axis=0).T
+                    r_y = (phi_y * G2).sum(axis=0).T
+
+                    score = ((np.dot(r_y.T,r_y).ravel()/2. - r_x.sum(axis=0))/n_minimum).item()
+
+                    if (score < score_new):
+                        score_new = score
+                        sigma_new = sig
+                        lamb_new = lam
+
+                pbar.set_description()
+                pbar.set_postfix_str(f"sigma:{sigma_new},lambda:{lamb_new}, score:{score_new:.4f}", refresh=True)
+                pbar.update(1)
+            pbar.clear()
+            print(f'Found optimal sigma = {sigma_new}, lambda = {lamb_new}, score={score_new}')
         return {'sigma':sigma_new, 'lambda':lamb_new}
-    
+
 def gauss_kernel(r,centers,sigma):
     dists = pairwise_distances(euclid_distance)
     return np.exp(-0.5*dists(r,centers) / (sigma**2))
