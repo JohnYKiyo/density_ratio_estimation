@@ -4,7 +4,7 @@ import jax.numpy as np
 from jax import jit, vmap
 
 import random as rand
-from functools import artial
+from functools import partial
 from tqdm import tqdm
 
 class densratio: 
