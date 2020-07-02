@@ -1,3 +1,6 @@
+"""densityratio
+
+"""
 from jax.config import config; config.update("jax_enable_x64", True)
 import jax
 import jax.numpy as np
@@ -7,11 +10,37 @@ import random as rand
 from functools import partial
 from tqdm import tqdm
 
-class densratio: 
+class Densratio: 
+    """Densratio
+    The densratio class estimates the density ratio r(x) = p(x) / q(x) from two-samples x1 and x2 generated from two unknown distributions p(x), q(x), respectively, where x1 and x2 are d-dimensional real numbers.
+    """
+
     def __init__(self):
         pass 
-    def __init__(self, x, y, alpha=0., sigma=None, lamb=None, kernel_num=None, verbose=False):
-        self.__clear_disp = not verbose
+    def __init__(self, x, y, alpha=0., sigma=None, lamb=None, kernel_num=None):
+        """Deonsratio.__init__
+        Args:
+            x (`array_like of float`) : Numerator samples array. x is generated from p(x).
+            
+            y (`array_like of float`) : Denumerator samples array. y is generated from q(x).
+            
+            alpha (:obj:`float` or `array_like of float`, optional) : The alpha is a parameter that can adjust the mixing ratio r(x) = p(x)/(alpha*p(x)+(1-alpha)q(x))
+                , and is set in the range of 0-1.
+                Defaults to 0.
+            
+            sigma (:obj:`float` or `array_like of float`, optional) : Bandwidth of kernel.
+                If a value is set for sigma, that value is used for kernel bandwidth
+                , and if a numerical array is set for sigma, Densratio selects the optimum value by using CV.
+                Defaults to array of 10e-4 to 10e+9 divided into 14 on the log scale.
+            
+            lamb (:obj: `float` or `array_like of float`, optional) : Regularization parameter.
+                If a value is set for lamb, that value is used for hyperparameter
+                , and if a numerical array is set for lamb, Densratio selects the optimum value by using CV.
+                Defaults to array of 10e-4 to 10e+9 divided into 14 on the log scale.
+            
+            kernel_num (:obj: `int`, optional) : The number of kernels in the linear model. Defaults to 100.
+        
+        """
         self.__x = transform_data(x)
         self.__y = transform_data(y)
 
@@ -34,9 +63,25 @@ class densratio:
                      kernel_num = kernel_num)
     
     def __call__(self,val):
+        """__call__ method 
+        call calculate_density_ratio.
+        Args:
+            val (`float` or `array_like of float`): 
+
+        Returns:
+            array_like of float. Density ratio at input val. r(val)
+        """
         return self.calculate_density_ratio(val)
     
     def calculate_density_ratio(self, val):
+        """calculate_density_ratio method
+        
+        Args:
+            val (`float` or `array_like of float`): 
+
+        Returns:
+            array_like of float. Density ratio at input val. r(val)
+        """
         val = transform_data(val)
         phi_x = gauss_kernel(val, self.__kernel_centers, self.__sigma)
         density_ratio = np.dot(phi_x, self.__weights)
