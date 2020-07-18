@@ -1,4 +1,4 @@
-# CLASS densityratio.densratio(*x, y, alpha=0., sigma=None, lamb=None, kernel_num=None, verbose=False*)
+# CLASS densityratio.densratio(*x, y, alpha=0., sigma=None, lamb=None, kernel_num=None*)
 Densityratio class for estimation relative-densratio and densratio culculated from two multi-dimentional samples.   
 
 ## Parameters
@@ -12,8 +12,6 @@ The *alpha* is a parameter that can adjust the mixing ratio `r(x) = p(x)/(alpha*
 If a value is set for *sigma, lamb*, that value is used, and if a numerical array is set, the *densityratio()* selects the optimum value by CV.   
 - **kernel_num(*int, default=None*)**   
 The *kernel_num* is the number of kernels in the linear model.
-- **verbose(*bool, default=False*)**   
-Whether to override the progress bar display or show a newline.
 
 ## Methods
 - *\_\_call\_\_(self,val)*   
