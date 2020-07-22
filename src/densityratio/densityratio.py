@@ -10,7 +10,9 @@ import random as rand
 from functools import partial
 from tqdm import tqdm
 
-class Densratio: 
+from .utils import *
+
+class Densratio(object): 
     """Densratio
     The densratio class estimates the density ratio r(x) = p(x) / q(x) from two-samples x1 and x2 generated from two unknown distributions p(x), q(x), respectively, where x1 and x2 are d-dimensional real numbers.
     """
@@ -195,44 +197,3 @@ class Densratio:
             print(f'Found optimal sigma = {sigma_new}, lambda = {lamb_new}, score={score_new}')
         return {'sigma':sigma_new, 'lambda':lamb_new}
 
-def gauss_kernel(r,centers,sigma):
-    dists = pairwise_distances(euclid_distance)
-    return np.exp(-0.5*dists(r,centers) / (sigma**2))
-    #return np.exp(-0.5*pairwise_euclid_distances(r,centers) / (sigma**2))
-
-def transform_data(x):
-    if isinstance(x,np.ndarray):
-        if len(x.shape)==1:
-            return np.atleast_2d(x.astype(np.float64)).T
-        else:
-            return np.atleast_2d(x.astype(np.float64))
-    elif isinstance(x,list):
-        return transform_data(np.array(x))
-    else:
-        raise ValueError("Cannot convert to numpy.array")
-
-def euclid_distance(x,y, square=True):
-    '''
-    \sum_m (X_m - Y_m)^2
-    '''
-    XX=np.dot(x,x)
-    YY=np.dot(y,y)
-    XY=np.dot(x,y)
-    if not square:
-        return np.sqrt(XX+YY-2*XY)
-    return XX+YY-2*XY
-
-def pairwise_distances(dist,**arg):
-    '''
-    d_ij = dist(X_i , Y_j)
-    "i,j" are assumed to indicate the data index.
-    '''
-    return jit(vmap(vmap(partial(dist,**arg),in_axes=(None,0)),in_axes=(0,None)))
-
-def pairwise_euclid_distances(x,y,square=True):
-    XX = np.einsum('ik,ik->i',x,x)
-    YY = np.einsum('ik,ik->i',y,y)
-    XY = np.einsum('ik,jk->ij',x,y)
-    if not square:
-        return np.sqrt(XX[:,np.newaxis]+YY[np.newaxis,:] - 2*XY)
-    return XX[:,np.newaxis]+YY[np.newaxis,:] - 2*XY
