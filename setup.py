@@ -1,19 +1,21 @@
-from glob import glob
-from os.path import basename
-from os.path import splitext
+# from glob import glob
+# from os.path import basename
+# from os.path import splitext
 
 from setuptools import setup
-from setuptools import find_packages
+# from setuptools import find_packages
+
 
 def _requires_from_file(filename):
     return open(filename).read().splitlines()
+
 
 with open("README.md", "r") as f:
     long_description = f.read()
 
 setup(
     name="densityratio",
-    version="1.0.0",
+    version="1.0.1",
     license="MIT License + LICENSE file",
     description="A Python Package for Direct density estimation by unconstrained Least-Squares Importance Fitting (uLSIF).",
     long_description=long_description,
@@ -23,8 +25,8 @@ setup(
     url="https://github.com/JohnYKiyo/density_ratio_estimation",
     keywords='density ratio estimation',
     python_requires=">=3.6.0",
-    packages=['densityratio','densityratio.densityratio'],
-    package_dir = {'densityratio': 'src'},
+    packages=['densityratio', 'densityratio.densityratio'],
+    package_dir={'densityratio': 'src'},
     install_requires=[
         'jax>=0.1.57',
         'jaxlib>=0.1.37'

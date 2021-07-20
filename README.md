@@ -62,7 +62,7 @@ fig.savefig('pic/QS1_samples.png')
 
 Pass two samples to the densratio and it will be calculated automatically.
 ```sh
-dens = densityratio.densratio(x1,x2)
+dens = densityratio.Densratio(x1,x2)
 ```
 In this case, the true density ratio `r(x)` is known, so we can compare `r(x)` with the estimated density ratio `\hat{r}(x)`.    
 ![](pic/QS1_ratio.png)   
@@ -118,7 +118,7 @@ If a value is set for *sigma, lambda*, that value is used, and if a numerical ar
 The *alpha* is a parameter that can adjust the mixing ratio, and is set in the range of \[0,1.\].   
 The *kernel_number* is the number of kernels in the linear model.
 ```sh
-dens = densityratio.densratio(x1,x2,sigma=[0.1, 0.3, 0.5, 0.7, 1., 2., 5.], lamb=[0.01, 0.02, 0.03, 0.04, 0.05],kernel_num=200,alpha=0.2)
+dens = densityratio.Densratio(x1,x2,sigma=[0.1, 0.3, 0.5, 0.7, 1., 2., 5.], lamb=[0.01, 0.02, 0.03, 0.04, 0.05],kernel_num=200,alpha=0.2)
 ```
 
 In this case, the true density ratio $r(x)$ is known, so we can compare `r(x)` with the estimated density ratio `\hat{r}(x)`.    
